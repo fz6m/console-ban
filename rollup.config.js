@@ -69,7 +69,7 @@ const minimize = (obj) => {
   minObj.file = minObj.file.slice(0, minObj.file.lastIndexOf('.js')) + '.min.js'
   minObj.plugins = [
     terser({
-      compress: { drop_console: !isDev },
+      compress: { drop_console: false },
       format: {
         comments: RegExp(`${pkg.name}`)
       }
