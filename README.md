@@ -81,7 +81,7 @@ name|required|type|default|description
 `debug`|no|boolean|`true`|是否开启定时 `debugger` 反爬虫审查
 `debugTime`|no|number|`3000`|定时 `debugger` 时间间隔（毫秒）
 `redirect`|no|string|`-`|开启控制台后重定向地址
-`write`|no|string | Element|`-`|开启控制台后重写 `document.body` 内容，支持传入节点或字符串
+`write`|no|string \| Element|`-`|开启控制台后重写 `document.body` 内容，支持传入节点或字符串
 `callback`|no|Function|`-`|开启控制台后的回调函数
 
 注：`redirect`、`write`、`callback` 三种策略只能取其一，优先使用回调函数。
