@@ -77,6 +77,7 @@
 ### Options
 
 name|required|type|default|description
+:-:|:-:|:-:|:-
 `clear`|no|boolean|`true`|清除 `console.clear` 函数，防止脚本清屏阻断监测
 `debug`|no|boolean|`true`|是否开启定时 `debugger` 反爬虫审查
 `debugTime`|no|number|`3000`|定时 `debugger` 时间间隔（毫秒）
