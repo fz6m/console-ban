@@ -29,6 +29,12 @@
   yarn add console-ban
 ```
 
+```js
+  import { init as ConsoleBan } from 'console-ban'
+
+  ConsoleBan()
+```
+
 ### Strategy
 
 #### 重定向
