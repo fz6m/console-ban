@@ -25,12 +25,10 @@
     "build:inline": "cross-env NODE_ENV=production CSS_STATUS=inline rollup -c",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx \"src\"",
     "prettier": "prettier -c --write \"src/*.ts\" \"src/*.js\" \"src/*.jsx\" \"src/*.tsx\"",
-    "fix": "eslint --fix --ext .js,.jsx,.ts,.tsx \"src\"",
+    "fix": "eslint --fix --ext .js,.jsx,.ts,.tsx \"src\""
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
