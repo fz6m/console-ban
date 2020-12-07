@@ -36,7 +36,7 @@
 ```js
   ConsoleBan.init({
     // 重定向至 /about 相对地址
-    redirect: '/about'
+    redirect: '/about',
     // 重定向至绝对地址
     redirect: 'http://domain.com/path'
   })
@@ -52,7 +52,7 @@
 
   ConsoleBan.init({
     // 重写 body 为字符串
-    write: '<h1> 不要偷看啦~ </h1>'
+    write: '<h1> 不要偷看啦~ </h1>',
     // 可传入节点对象
     write: div
   })
