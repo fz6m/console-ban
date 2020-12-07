@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "pre-commit": "pretty-quick --staged --pattern \"src/*.*(js|jsx|ts|tsx)\"",
+    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+  }
+}
