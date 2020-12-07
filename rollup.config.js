@@ -11,9 +11,6 @@ import { terser } from 'rollup-plugin-terser'
 // https://github.com/saf33r/rollup-plugin-cleaner
 import cleaner from 'rollup-plugin-cleaner'
 
-// https://github.com/egoist/rollup-plugin-postcss
-import postcss from 'rollup-plugin-postcss'
-
 // https://github.com/ezolenko/rollup-plugin-typescript2
 import typescript from 'rollup-plugin-typescript2'
 
@@ -22,8 +19,6 @@ import { DEFAULT_EXTENSIONS } from '@babel/core'
 
 import { cloneDeep, upperFirst } from 'lodash'
 const path = require('path')
-
-const isDev = process.env.NODE_ENV === 'development'
 
 const filename = pkg.browser.slice(
   pkg.browser.indexOf('/') + 1,
@@ -113,12 +108,6 @@ export default {
       exclude: 'node_modules/**',
       babelHelpers: 'bundled',
       extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx']
-    }),
-    postcss({
-      extract:
-        process.env.CSS_STATUS === 'inline'
-          ? false
-          : resolve(`dist/css/${filename}.css`)
     })
   ]
 }
