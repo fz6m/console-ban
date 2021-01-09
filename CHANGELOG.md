@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/fz6m/console-ban/compare/v1.2.0...v1.3.0) (2021-01-09)
+
+
+### Features
+
+* schema upgrade 🚀 ([5400785](https://github.com/fz6m/console-ban/commit/540078546d2f988e626b4ce689db547fcaf13e7d))
+
+
+
 # [1.2.0](https://github.com/fz6m/console-ban/compare/e890e29da5559c47425e543fa9df3610914e9c72...v1.2.0) (2021-01-09)
 
 
