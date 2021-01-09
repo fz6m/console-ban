@@ -1,6 +1,6 @@
 {
   "name": "console-ban",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "fz6m",
   "main": "dist/console-ban.cjs.js",
   "module": "dist/console-ban.esm.js",
@@ -22,7 +22,8 @@
     "console-ban"
   ],
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -c -w",
