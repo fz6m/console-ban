@@ -15,14 +15,18 @@ import cleaner from 'rollup-plugin-cleaner'
 import typescript from 'rollup-plugin-typescript2'
 
 import pkg from './package.json'
-import { DEFAULT_EXTENSIONS } from '@babel/core'
 
-import { cloneDeep, upperFirst } from 'lodash'
+// support .js .jsx
+// import { DEFAULT_EXTENSIONS } from '@babel/core'
+
 const path = require('path')
+const fs = require('fs')
+const _ = require('lodash')
 
-const filename = pkg.browser.slice(
-  pkg.browser.indexOf('/') + 1,
-  pkg.browser.indexOf('.')
+const umdFileName = pkg['umd:main']
+const filename = umdFileName.slice(
+  umdFileName.indexOf('/') + 1,
+  umdFileName.indexOf('.')
 )
 
 const out = [
@@ -35,64 +39,30 @@ const out = [
     format: 'esm'
   },
   {
-    file: pkg.browser,
+    file: umdFileName,
     format: 'umd',
-    name: filename
-      .split('-')
-      .map((i) => upperFirst(i))
-      .join('')
-  },
-  {
-    file: pkg.browser.replace('umd.', ''),
-    format: 'umd',
-    name: filename
-      .split('-')
-      .map((i) => upperFirst(i))
-      .join('')
+    name: _.upperFirst(_.camelCase(filename))
   }
 ]
 
 const banner = `/*!
  * ${pkg.name} v${pkg.version}
- * (c) 2020-2021 ${pkg.author}
+ * (c) 2020-${new Date().getFullYear()} ${pkg.author}
  * Released under the ${pkg.license} License.
  */
 `
 
-const minimize = (obj) => {
-  const minObj = cloneDeep(obj)
-  minObj.file = minObj.file.slice(0, minObj.file.lastIndexOf('.js')) + '.min.js'
-  minObj.plugins = [
-    terser({
-      compress: { drop_console: false },
-      format: {
-        comments: RegExp(`${pkg.name}`)
-      }
-    })
-  ]
-  minObj.banner = banner
-  return minObj
-}
-
-const resolve = (dir) => {
-  return path.join(__dirname, dir)
-}
-
-export default {
-  input: resolve('src/index.ts'),
-  output: [
-    ...out,
-    ...out.map((type) => {
-      type.file = resolve(type.file)
-      return minimize(type)
-    })
-  ],
+const configGenerator = (module, index) => ({
+  input: getInput(),
+  output: [module, minify(module)],
   plugins: [
-    cleaner({
-      targets: ['./dist']
-    }),
+    index === 0
+      ? cleaner({
+          targets: ['./dist', './types']
+        })
+      : null,
     json(),
-    nodeResolve(),
+    module.format !== 'esm' ? nodeResolve() : null,
     commonjs(),
     alias({
       entries: [{ find: '@', replacement: resolve('src') }]
@@ -102,12 +72,54 @@ export default {
     }),
     typescript({
       check: true,
-      tsconfig: resolve('tsconfig.json')
+      tsconfig: resolve('tsconfig.json'),
+      useTsconfigDeclarationDir: true
     }),
     babel({
       exclude: 'node_modules/**',
-      babelHelpers: 'bundled',
-      extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx']
+      extensions: ['.ts', '.tsx']
+    })
+  ].filter(Boolean)
+})
+
+export default out.map((o, i) => configGenerator(o, i))
+
+/**
+ * 获取文件绝对路径
+ * @param {String} dir 文件相对路径
+ */
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
+/**
+ * 自动识别项目入口文件
+ */
+function getInput() {
+  const index = resolve('src/index.ts')
+  const indexJSX = resolve('src/index.tsx')
+  return fs.existsSync(index) ? index : indexJSX
+}
+
+/**
+ * 最小化版本
+ * @param {Object} m out 数组内的单个 output 对象
+ */
+function minify(m) {
+  // 获取绝对路径
+  m.file = resolve(m.file)
+
+  // 最小化
+  const minObj = _.cloneDeep(m)
+  minObj.file = minObj.file.slice(0, minObj.file.lastIndexOf('.js')) + '.min.js'
+  minObj.plugins = [
+    terser({
+      // 去除多余的 banner
+      format: {
+        comments: RegExp(`${pkg.name}`)
+      }
     })
   ]
+  minObj.banner = banner
+  return minObj
 }

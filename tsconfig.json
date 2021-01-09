@@ -3,20 +3,26 @@
     "baseUrl": ".",
     "outDir": "dist",
     "sourceMap": false,
-    "target": "esnext",
+    "target": "es5",
     "module": "esnext",
     "moduleResolution": "node",
     "allowJs": false,
     "strict": true,
-    "noUnusedLocals": true,
+    "strictNullChecks": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "removeComments": false,
-    "jsx": "preserve",
-    "lib": ["esnext", "dom"],
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "types": ["node"],
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "noEmit": true,
+    "declaration": true,
+    "declarationDir": "./types"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["lib", "es"]
 }

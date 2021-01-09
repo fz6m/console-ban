@@ -2,8 +2,9 @@ module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
   env: {
+    es6: true,
     browser: true,
-    es2021: true
+    node: true
   },
   extends: ['plugin:prettier/recommended'],
   plugins: ['prettier'],

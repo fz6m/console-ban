@@ -1,136 +1,87 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.ConsoleBan = {}));
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+    typeof define === 'function' && define.amd ? define(['exports'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.ConsoleBan = {}));
 }(this, (function (exports) { 'use strict';
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
+    /*! *****************************************************************************
+    Copyright (c) Microsoft Corporation.
 
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
 
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
+    ***************************************************************************** */
 
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
+    var __assign = function() {
+        __assign = Object.assign || function __assign(t) {
+            for (var s, i = 1, n = arguments.length; i < n; i++) {
+                s = arguments[i];
+                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+            }
+            return t;
+        };
+        return __assign.apply(this, arguments);
+    };
 
-    return obj;
-  }
+    var defaultOptions = {
+      clear: true,
+      debug: true,
+      debugTime: 3000
+    };
 
-  function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly) symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-      keys.push.apply(keys, symbols);
+    /**
+     * 处理 URL 补全
+     * @example '' -> /
+     * @example path -> /path
+     * @example /path -> /path
+     * @param url
+     */
+    function completion(url) {
+      if (!url) return '/';
+      return url[0] !== '/' ? "/" + url : url;
     }
 
-    return keys;
-  }
+    var ConsoleBan =
+    /** @class */
+    function () {
+      function ConsoleBan(option) {
+        var _a = __assign(__assign({}, defaultOptions), option),
+            clear = _a.clear,
+            debug = _a.debug,
+            debugTime = _a.debugTime,
+            callback = _a.callback,
+            redirect = _a.redirect,
+            write = _a.write;
 
-  function _objectSpread2(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-
-      if (i % 2) {
-        ownKeys(Object(source), true).forEach(function (key) {
-          _defineProperty(target, key, source[key]);
-        });
-      } else if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
-        ownKeys(Object(source)).forEach(function (key) {
-          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
+        this._debug = debug;
+        this._debugTime = debugTime;
+        this._clear = clear;
+        this._callback = callback;
+        this._redirect = redirect;
+        this._write = write;
       }
-    }
 
-    return target;
-  }
-
-  var defaultOptions = {
-    clear: true,
-    debug: true,
-    debugTime: 3000
-  };
-
-  /**
-   * 处理 URL 补全
-   * @example '' -> /
-   * @example path -> /path
-   * @example /path -> /path
-   * @param url
-   */
-  function completion(url) {
-    if (!url) return '/';
-    return url[0] !== '/' ? "/".concat(url) : url;
-  }
-
-  var ConsoleBan = /*#__PURE__*/function () {
-    function ConsoleBan(option) {
-      _classCallCheck(this, ConsoleBan);
-
-      var _defaultOptions$optio = _objectSpread2(_objectSpread2({}, defaultOptions), option),
-          clear = _defaultOptions$optio.clear,
-          debug = _defaultOptions$optio.debug,
-          debugTime = _defaultOptions$optio.debugTime,
-          callback = _defaultOptions$optio.callback,
-          redirect = _defaultOptions$optio.redirect,
-          write = _defaultOptions$optio.write;
-
-      this._debug = debug;
-      this._debugTime = debugTime;
-      this._clear = clear;
-      this._callback = callback;
-      this._redirect = redirect;
-      this._write = write;
-    }
-
-    _createClass(ConsoleBan, [{
-      key: "clear",
-      value: function clear() {
+      ConsoleBan.prototype.clear = function () {
         if (this._clear) {
           console.clear = function () {};
         }
-      }
-    }, {
-      key: "debug",
-      value: function debug() {
+      };
+
+      ConsoleBan.prototype.debug = function () {
         if (this._debug) {
           var db = new Function('debugger');
           setInterval(db, this._debugTime);
         }
-      }
-    }, {
-      key: "redirect",
-      value: function redirect() {
+      };
+
+      ConsoleBan.prototype.redirect = function () {
         if (!this._redirect) {
           return;
         } // 绝对地址
@@ -149,10 +100,9 @@
         }
 
         location.href = this._redirect;
-      }
-    }, {
-      key: "callback",
-      value: function callback() {
+      };
+
+      ConsoleBan.prototype.callback = function () {
         var _this = this;
 
         if (!this._callback && !this._redirect && !this._write) {
@@ -181,36 +131,34 @@
           }
         });
         console.log(img);
-      }
-    }, {
-      key: "write",
-      value: function write() {
+      };
+
+      ConsoleBan.prototype.write = function () {
         if (this._write) {
           document.body.innerHTML = typeof this._write === 'string' ? this._write : this._write.innerHTML;
         }
-      }
-    }, {
-      key: "ban",
-      value: function ban() {
+      };
+
+      ConsoleBan.prototype.ban = function () {
         // callback
         this.callback(); // clear console.clear
 
         this.clear(); // debug init
 
         this.debug();
-      }
-    }]);
+      };
 
-    return ConsoleBan;
-  }();
+      return ConsoleBan;
+    }();
 
-  function init(option) {
-    var instance = new ConsoleBan(option);
-    instance.ban();
-  }
+    function init(option) {
+      var instance = new ConsoleBan(option);
+      instance.ban();
+    }
 
-  exports.init = init;
+    exports.default = init;
+    exports.init = init;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
+    Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
