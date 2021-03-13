@@ -1,5 +1,5 @@
 export declare const defaultOptions: {
-  clear: boolean
-  debug: boolean
-  debugTime: number
-}
+    clear: boolean;
+    debug: boolean;
+    debugTime: number;
+};
