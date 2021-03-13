@@ -132,8 +132,10 @@ function () {
       };
 
       console.log && console.log('%c', watchElement);
-    } else {
-      var re = / /;
+    }
+
+    if (~navigator.userAgent.toLowerCase().indexOf('firefox')) {
+      var re = /./;
 
       re.toString = function () {
         _this.fire();
