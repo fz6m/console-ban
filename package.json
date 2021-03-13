@@ -1,6 +1,6 @@
 {
   "name": "console-ban",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": "fz6m",
   "main": "dist/console-ban.cjs.js",
   "module": "dist/console-ban.esm.js",
