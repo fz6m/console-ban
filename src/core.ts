@@ -98,8 +98,10 @@ export class ConsoleBan {
         return RETURN_MESSAGE
       }
       console.log && console.log('%c', watchElement)
-    } else {
-      const re = / /
+    }
+
+    if (~navigator.userAgent.toLowerCase().indexOf('firefox')) {
+      const re = /./
       re.toString = (): string => {
         this.fire()
         return RETURN_MESSAGE
