@@ -1,4 +1,13 @@
-# [2.0.0](https://github.com/fz6m/console-ban/compare/v1.5.0...v2.0.0) (2021-03-13)
+# [2.0.0](https://github.com/fz6m/console-ban/compare/v1.6.0...v2.0.0) (2021-03-13)
+
+
+### Features
+
+* **firefox:** add firefox support ([a3b3626](https://github.com/fz6m/console-ban/commit/a3b362689d65a68842610296eca79ada433f2e0d))
+
+
+
+# [1.6.0](https://github.com/fz6m/console-ban/compare/v1.5.0...v1.6.0) (2021-01-09)
 
 
 
