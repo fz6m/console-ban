@@ -1,3 +1,3 @@
-import { options } from './core'
-export declare function init(option: options): void
-export default init
+import { options } from './core';
+export declare function init(option: options): void;
+export default init;

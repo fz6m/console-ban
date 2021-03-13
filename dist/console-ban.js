@@ -66,6 +66,8 @@
         this._callback = callback;
         this._redirect = redirect;
         this._write = write;
+        this._evalCounts = 0;
+        this._isOpenedEver = false;
       }
 
       ConsoleBan.prototype.clear = function () {
@@ -109,34 +111,51 @@
           return;
         }
 
-        var img = new Image();
-        Object.defineProperty(img, 'id', {
-          get: function get() {
-            // callback
-            if (_this._callback) {
-              _this._callback.call(null);
+        var isOpen = function isOpen() {
+          return _this._evalCounts === (_this._isOpenedEver ? 1 : 2);
+        };
 
-              return;
-            } // redirect
+        var watchElement = new Function();
 
+        watchElement.toString = function () {
+          _this._evalCounts++;
 
-            _this.redirect();
+          if (isOpen()) {
+            _this._isOpenedEver = true;
+            _this._evalCounts = 0;
 
-            if (_this._redirect) {
-              return;
-            } // write
-
-
-            _this.write();
+            _this.fire();
           }
-        });
-        console.log(img);
+
+          return '[WARNING] fire in the hole';
+        }; // @ts-ignore
+
+
+        if (window && window.chrome) {
+          console.log && console.log('%c', watchElement);
+        }
       };
 
       ConsoleBan.prototype.write = function () {
         if (this._write) {
           document.body.innerHTML = typeof this._write === 'string' ? this._write : this._write.innerHTML;
         }
+      };
+
+      ConsoleBan.prototype.fire = function () {
+        if (this._callback) {
+          this._callback.call(null);
+
+          return;
+        }
+
+        this.redirect();
+
+        if (this._redirect) {
+          return;
+        }
+
+        this.write();
       };
 
       ConsoleBan.prototype.ban = function () {

@@ -5,4 +5,4 @@
  * @example /path -> /path
  * @param url
  */
-export declare function completion(url: string): string
+export declare function completion(url: string): string;
