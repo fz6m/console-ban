@@ -7,8 +7,8 @@ export interface options {
   debugTime?: number // 无限 debugger 间隔
   callback?: Function // 打开 console 后的回调
   redirect?: string // 重定向地址
-  clear?: boolean // 是否可以 console.clear
-  write?: string | Element // 重写 document 内容
+  clear?: boolean // 是否禁用 console.clear
+  write?: string | Element // 是否重写 document 内容
 }
 
 export class ConsoleBan {
