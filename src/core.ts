@@ -75,22 +75,36 @@ export class ConsoleBan {
     if (!this._callback && !this._redirect && !this._write) {
       return
     }
-    const isOpen = (): boolean => {
-      return this._evalCounts === (this._isOpenedEver ? 1 : 2)
+
+    if (!window) {
+      return
     }
-    const watchElement = new Function()
-    watchElement.toString = (): string => {
-      this._evalCounts++
-      if (isOpen()) {
-        this._isOpenedEver = true
-        this._evalCounts = 0
-        this.fire()
-      }
-      return '[WARNING] fire in the hole'
-    }
+
+    const RETURN_MESSAGE = '[WARNING] fire in the hole'
+
     // @ts-ignore
-    if (window && window.chrome) {
+    if (window.chrome) {
+      const isOpen = (): boolean => {
+        return this._evalCounts === (this._isOpenedEver ? 1 : 2)
+      }
+      const watchElement = new Function()
+      watchElement.toString = (): string => {
+        this._evalCounts++
+        if (isOpen()) {
+          this._isOpenedEver = true
+          this._evalCounts = 0
+          this.fire()
+        }
+        return RETURN_MESSAGE
+      }
       console.log && console.log('%c', watchElement)
+    } else {
+      const re = / /
+      re.toString = (): string => {
+        this.fire()
+        return RETURN_MESSAGE
+      }
+      console.log && console.log(re)
     }
   }
 
