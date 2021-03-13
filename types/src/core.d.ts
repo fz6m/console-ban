@@ -13,11 +13,14 @@ export declare class ConsoleBan {
     _callback?: Function;
     _redirect?: string;
     _write?: string | Element;
+    _evalCounts: number;
+    _isOpenedEver: boolean;
     constructor(option: options);
     clear(): void;
     debug(): void;
     redirect(): void;
     callback(): void;
     write(): void;
+    fire(): void;
     ban(): void;
 }

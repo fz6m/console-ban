@@ -85,7 +85,7 @@
 
 name|required|type|default|description
 :-:|:-:|:-:|:-:|:-
-`clear`|no|boolean|`true`|清除 `console.clear` 函数，防止脚本清屏阻断监测
+`clear`|no|boolean|`true`|禁用 `console.clear` 函数，防止脚本清屏阻断监测
 `debug`|no|boolean|`true`|是否开启定时 `debugger` 反爬虫审查
 `debugTime`|no|number|`3000`|定时 `debugger` 时间间隔（毫秒）
 `redirect`|no|string|`-`|开启控制台后重定向地址
@@ -93,3 +93,7 @@ name|required|type|default|description
 `callback`|no|Function|`-`|开启控制台后的回调函数
 
 注：`redirect`、`write`、`callback` 三种策略只能取其一，优先使用回调函数。
+
+### How
+
+[Find out whether Chrome console is open](https://stackoverflow.com/questions/7798748/find-out-whether-chrome-console-is-open/30638226)

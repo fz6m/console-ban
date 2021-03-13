@@ -20,6 +20,9 @@ export class ConsoleBan {
   _redirect?: string
   _write?: string | Element
 
+  _evalCounts: number
+  _isOpenedEver: boolean
+
   constructor(option: options) {
     const { clear, debug, debugTime, callback, redirect, write } = {
       ...defaultOptions,
@@ -33,6 +36,9 @@ export class ConsoleBan {
     this._callback = callback
     this._redirect = redirect
     this._write = write
+
+    this._evalCounts = 0
+    this._isOpenedEver = false
   }
 
   clear() {
@@ -69,26 +75,23 @@ export class ConsoleBan {
     if (!this._callback && !this._redirect && !this._write) {
       return
     }
-    const img = new Image()
-    Object.defineProperty(img, 'id', {
-      get: () => {
-        // callback
-        if (this._callback) {
-          this._callback.call(null)
-          return
-        }
-
-        // redirect
-        this.redirect()
-        if (this._redirect) {
-          return
-        }
-
-        // write
-        this.write()
+    const isOpen = (): boolean => {
+      return this._evalCounts === (this._isOpenedEver ? 1 : 2)
+    }
+    const watchElement = new Function()
+    watchElement.toString = (): string => {
+      this._evalCounts++
+      if (isOpen()) {
+        this._isOpenedEver = true
+        this._evalCounts = 0
+        this.fire()
       }
-    })
-    console.log(img)
+      return '[WARNING] fire in the hole'
+    }
+    // @ts-ignore
+    if (window && window.chrome) {
+      console.log && console.log('%c', watchElement)
+    }
   }
 
   write() {
@@ -96,6 +99,18 @@ export class ConsoleBan {
       document.body.innerHTML =
         typeof this._write === 'string' ? this._write : this._write.innerHTML
     }
+  }
+
+  fire() {
+    if (this._callback) {
+      this._callback.call(null)
+      return
+    }
+    this.redirect()
+    if (this._redirect) {
+      return
+    }
+    this.write()
   }
 
   ban() {
