@@ -2,7 +2,7 @@
 
 禁止F12 / 审查开启控制台，保护站点资源、减少爬虫和攻击的轻量方案，支持重定向、重写、自定义多种策略。
 
-*version: 1.5*
+*version: 2.0*
 
 ### Usage
 
@@ -11,7 +11,7 @@
 ```html
 <head>
   <!-- ... -->
-  <script src="https://cdn.jsdelivr.net/gh/fz6m/console-ban@1.5/dist/console-ban.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/fz6m/console-ban@2.0/dist/console-ban.min.js"></script>
   <script>
     // default options
     ConsoleBan.init()

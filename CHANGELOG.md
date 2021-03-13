@@ -1,3 +1,7 @@
+# [2.0.0](https://github.com/fz6m/console-ban/compare/v1.5.0...v2.0.0) (2021-03-13)
+
+
+
 # [1.5.0](https://github.com/fz6m/console-ban/compare/v1.4.0...v1.5.0) (2021-01-09)
 
 
