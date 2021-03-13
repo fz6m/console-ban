@@ -105,28 +105,43 @@ function () {
       return;
     }
 
-    var isOpen = function isOpen() {
-      return _this._evalCounts === (_this._isOpenedEver ? 1 : 2);
-    };
+    if (!window) {
+      return;
+    }
 
-    var watchElement = new Function();
+    var RETURN_MESSAGE = '[WARNING] fire in the hole'; // @ts-ignore
 
-    watchElement.toString = function () {
-      _this._evalCounts++;
+    if (window.chrome) {
+      var isOpen_1 = function isOpen_1() {
+        return _this._evalCounts === (_this._isOpenedEver ? 1 : 2);
+      };
 
-      if (isOpen()) {
-        _this._isOpenedEver = true;
-        _this._evalCounts = 0;
+      var watchElement = new Function();
 
-        _this.fire();
-      }
+      watchElement.toString = function () {
+        _this._evalCounts++;
 
-      return '[WARNING] fire in the hole';
-    }; // @ts-ignore
+        if (isOpen_1()) {
+          _this._isOpenedEver = true;
+          _this._evalCounts = 0;
 
+          _this.fire();
+        }
 
-    if (window && window.chrome) {
+        return RETURN_MESSAGE;
+      };
+
       console.log && console.log('%c', watchElement);
+    } else {
+      var re = / /;
+
+      re.toString = function () {
+        _this.fire();
+
+        return RETURN_MESSAGE;
+      };
+
+      console.log && console.log(re);
     }
   };
 
