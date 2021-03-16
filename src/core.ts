@@ -49,7 +49,7 @@ export class ConsoleBan {
 
   debug() {
     if (this._debug) {
-      const db = new Function('debugger')
+      const db = function() { debugger }
       setInterval(db, this._debugTime)
     }
   }
@@ -87,7 +87,7 @@ export class ConsoleBan {
       const isOpen = (): boolean => {
         return this._evalCounts === (this._isOpenedEver ? 1 : 2)
       }
-      const watchElement = new Function()
+      const watchElement = function() {}
       watchElement.toString = (): string => {
         this._evalCounts++
         if (isOpen()) {
