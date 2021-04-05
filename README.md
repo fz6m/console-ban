@@ -2,7 +2,7 @@
 
 禁止F12 / 审查开启控制台，保护站点资源、减少爬虫和攻击的轻量方案，支持重定向、重写、自定义多种策略。
 
-*version: 2.1*
+*version: 2.2*
 
 ### Usage
 
@@ -93,6 +93,15 @@ name|required|type|default|description
 `callback`|no|Function|`-`|开启控制台后的回调函数
 
 注：`redirect`、`write`、`callback` 三种策略只能取其一，优先使用回调函数。
+
+
+### Support
+
+browser core|support
+:-:|:-:
+chrome|✓
+firefox|✓
+safari|✓
 
 ### How
 
