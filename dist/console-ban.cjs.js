@@ -45,6 +45,15 @@ function completion(url) {
   if (!url) return '/';
   return url[0] !== '/' ? "/" + url : url;
 }
+/**
+ * 判断浏览器
+ */
+
+function isUserAgentContains(text) {
+  return ~navigator.userAgent.toLowerCase().indexOf(text);
+}
+
+var RETURN_MESSAGE = '[WARNING] fire in the hole';
 
 var ConsoleBan =
 /** @class */
@@ -111,11 +120,13 @@ function () {
 
     if (!window) {
       return;
-    }
+    } // @ts-ignore
 
-    var RETURN_MESSAGE = '[WARNING] fire in the hole'; // @ts-ignore
 
-    if (window.chrome) {
+    var isChrome = window.chrome || isUserAgentContains('chrome');
+    var isFirefox = isUserAgentContains('firefox');
+
+    if (isChrome) {
       var isOpen_1 = function isOpen_1() {
         return _this._evalCounts === (_this._isOpenedEver ? 1 : 2);
       };
@@ -135,10 +146,11 @@ function () {
         return RETURN_MESSAGE;
       };
 
-      console.log && console.log('%c', watchElement);
+      console.log('%c', watchElement);
+      return;
     }
 
-    if (~navigator.userAgent.toLowerCase().indexOf('firefox')) {
+    if (isFirefox) {
       var re = /./;
 
       re.toString = function () {
@@ -147,8 +159,17 @@ function () {
         return RETURN_MESSAGE;
       };
 
-      console.log && console.log(re);
+      console.log(re);
+      return;
     }
+
+    var img = new Image();
+    Object.defineProperty(img, 'id', {
+      get: function get() {
+        _this.fire();
+      }
+    });
+    console.log(img);
   };
 
   ConsoleBan.prototype.write = function () {
