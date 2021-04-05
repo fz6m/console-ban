@@ -11,7 +11,7 @@
 ```html
 <head>
   <!-- ... -->
-  <script src="https://cdn.jsdelivr.net/gh/fz6m/console-ban@2.1/dist/console-ban.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/fz6m/console-ban@2.2/dist/console-ban.min.js"></script>
   <script>
     // default options
     ConsoleBan.init()
