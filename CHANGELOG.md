@@ -1,3 +1,10 @@
+# 2.2.0 (2021-04-05)
+
+### Features
+
+* add safari support 🍓 ([abd719a](https://github.com/fz6m/console-ban/commit/abd719afd615a293454ae80059a8e4775879cb38))
+
+
 # [2.1.0](https://github.com/fz6m/console-ban/compare/v1.6.0...v2.1.0) (2021-03-13)
 
 
