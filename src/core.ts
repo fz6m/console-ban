@@ -1,6 +1,6 @@
 import { defaultOptions } from './default'
-
-import { completion } from './utils'
+import { completion, isUserAgentContains } from './utils'
+import { RETURN_MESSAGE } from './constant'
 
 export interface options {
   debug?: boolean // 是否开启无限 debugger
@@ -80,10 +80,11 @@ export class ConsoleBan {
       return
     }
 
-    const RETURN_MESSAGE = '[WARNING] fire in the hole'
-
     // @ts-ignore
-    if (window.chrome) {
+    const isChrome = window.chrome || isUserAgentContains('chrome')
+    const isFirefox = isUserAgentContains('firefox')
+
+    if (isChrome) {
       const isOpen = (): boolean => {
         return this._evalCounts === (this._isOpenedEver ? 1 : 2)
       }
@@ -97,17 +98,27 @@ export class ConsoleBan {
         }
         return RETURN_MESSAGE
       }
-      console.log && console.log('%c', watchElement)
+      console.log('%c', watchElement)
+      return
     }
 
-    if (~navigator.userAgent.toLowerCase().indexOf('firefox')) {
+    if (isFirefox) {
       const re = /./
       re.toString = (): string => {
         this.fire()
         return RETURN_MESSAGE
       }
-      console.log && console.log(re)
+      console.log(re)
+      return
     }
+
+    const img = new Image()
+    Object.defineProperty(img, 'id', {
+      get: () => {
+        this.fire()
+      }
+    })
+    console.log(img)
   }
 
   write() {
