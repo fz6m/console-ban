@@ -1,8 +1,14 @@
-import { ConsoleBan, options } from './core'
+import { ConsoleBan, IConsoleBanOptions } from './core'
 
-export function init(option: options) {
+export type { options, IConsoleBanOptions } from './core'
+
+let isInitialled = false
+
+export const init = (option: IConsoleBanOptions) => {
+  if (isInitialled) {
+    return
+  }
   const instance = new ConsoleBan(option)
   instance.ban()
+  isInitialled = true
 }
-
-export default init
