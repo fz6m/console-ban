@@ -41,19 +41,70 @@ var defaultOptions = {
  * @example /path -> /path
  * @param url
  */
-function completion(url) {
-  if (!url) return '/';
+var completion = function completion(url) {
+  if (!url) {
+    return '/';
+  }
+
   return url[0] !== '/' ? "/" + url : url;
-}
+};
 /**
  * 判断浏览器
  */
 
-function isUserAgentContains(text) {
+var isUserAgentContains = function isUserAgentContains(text) {
   return ~navigator.userAgent.toLowerCase().indexOf(text);
-}
+};
+/**
+ * 判断字符串
+ */
 
-var RETURN_MESSAGE = '[WARNING] fire in the hole';
+var isString = function isString(v) {
+  return typeof v === 'string';
+};
+
+var getChromeRerenderTestFunc = function getChromeRerenderTestFunc(fire) {
+  var mark = 0;
+  return function () {
+    mark++;
+
+    if (mark === 2) {
+      fire();
+      mark = 1;
+    }
+  };
+};
+var getChromeTest = function getChromeTest(fire) {
+  var re = /./;
+  re.toString = getChromeRerenderTestFunc(fire);
+
+  var func = function func() {
+    return re;
+  };
+
+  func.toString = getChromeRerenderTestFunc(fire);
+  console.log('%c',
+  /* < 92 */
+  func,
+  /* 92 */
+  func());
+};
+
+var getFirefoxTest = function getFirefoxTest(fire) {
+  var re = /./;
+  re.toString = fire;
+  console.log(re);
+};
+
+var getSafariTest = function getSafariTest(fire) {
+  var img = new Image();
+  Object.defineProperty(img, 'id', {
+    get: function get() {
+      fire();
+    }
+  });
+  console.log(img);
+};
 
 var ConsoleBan =
 /** @class */
@@ -73,8 +124,6 @@ function () {
     this._callback = callback;
     this._redirect = redirect;
     this._write = write;
-    this._evalCounts = 0;
-    this._isOpenedEver = false;
   }
 
   ConsoleBan.prototype.clear = function () {
@@ -91,105 +140,78 @@ function () {
   };
 
   ConsoleBan.prototype.redirect = function () {
-    if (!this._redirect) {
+    var target = this._redirect;
+
+    if (!target) {
       return;
     } // 绝对地址
 
 
-    if (!!~this._redirect.indexOf('http')) {
-      location.href !== this._redirect ? location.href = this._redirect : null;
+    if (target.indexOf('http') === 0) {
+      location.href !== target && (location.href = target);
       return;
     } // 相对地址
 
 
     var path = location.pathname + location.search;
 
-    if (completion(this._redirect) === path) {
+    if (completion(target) === path) {
       return;
     }
 
-    location.href = this._redirect;
+    location.href = target;
   };
 
   ConsoleBan.prototype.callback = function () {
-    var _this = this;
-
     if (!this._callback && !this._redirect && !this._write) {
       return;
     }
 
     if (!window) {
       return;
-    } // @ts-ignore
+    }
 
-
+    var fireCallback = this.fire.bind(this);
     var isChrome = window.chrome || isUserAgentContains('chrome');
     var isFirefox = isUserAgentContains('firefox');
 
     if (isChrome) {
-      var isOpen_1 = function isOpen_1() {
-        return _this._evalCounts === (_this._isOpenedEver ? 1 : 2);
-      };
-
-      var watchElement = new Function();
-
-      watchElement.toString = function () {
-        _this._evalCounts++;
-
-        if (isOpen_1()) {
-          _this._isOpenedEver = true;
-          _this._evalCounts = 0;
-
-          _this.fire();
-        }
-
-        return RETURN_MESSAGE;
-      };
-
-      console.log('%c', watchElement);
+      getChromeTest(fireCallback);
       return;
     }
 
     if (isFirefox) {
-      var re = /./;
-
-      re.toString = function () {
-        _this.fire();
-
-        return RETURN_MESSAGE;
-      };
-
-      console.log(re);
+      getFirefoxTest(fireCallback);
       return;
-    }
+    } // 其他一律当做 safari 逻辑处理
 
-    var img = new Image();
-    Object.defineProperty(img, 'id', {
-      get: function get() {
-        _this.fire();
-      }
-    });
-    console.log(img);
+
+    getSafariTest(fireCallback);
   };
 
   ConsoleBan.prototype.write = function () {
-    if (this._write) {
-      document.body.innerHTML = typeof this._write === 'string' ? this._write : this._write.innerHTML;
+    var content = this._write;
+
+    if (content) {
+      document.body.innerHTML = isString(content) ? content : content.innerHTML;
     }
   };
 
   ConsoleBan.prototype.fire = function () {
+    // 优先执行回调
     if (this._callback) {
       this._callback.call(null);
 
       return;
-    }
+    } // 其次检查跳转
+
 
     this.redirect();
 
     if (this._redirect) {
       return;
-    }
+    } // 最后是重写逻辑
+
 
     this.write();
   };
@@ -206,10 +228,15 @@ function () {
   return ConsoleBan;
 }();
 
-function init(option) {
+var isInitialled = false;
+var init = function init(option) {
+  if (isInitialled) {
+    return;
+  }
+
   var instance = new ConsoleBan(option);
   instance.ban();
-}
+  isInitialled = true;
+};
 
-exports.default = init;
 exports.init = init;

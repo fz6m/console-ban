@@ -8,7 +8,7 @@
   "unpkg": "dist/console-ban.min.js",
   "jsdelivr": "dist/console-ban.min.js",
   "homepage": "https://github.com/fz6m/console-ban#README",
-  "types": "types/src/index.d.ts",
+  "types": "types/index.d.ts",
   "tsd": {
     "directory": "types"
   },

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "dist",
-    "rootDir": "./",
+    "rootDir": "./src",
     "noEmit": true,
     "declaration": true,
     "declarationDir": "./types",
