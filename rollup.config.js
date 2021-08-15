@@ -17,11 +17,13 @@ import typescript from 'rollup-plugin-typescript2'
 import pkg from './package.json'
 
 // support .js .jsx
-// import { DEFAULT_EXTENSIONS } from '@babel/core'
+import { DEFAULT_EXTENSIONS } from '@babel/core'
 
 const path = require('path')
 const fs = require('fs')
 const _ = require('lodash')
+
+const isDev = process.env.NODE_ENV === 'development'
 
 const umdFileName = pkg['umd:main']
 const filename = umdFileName.slice(
@@ -53,7 +55,7 @@ const banner = `/*!
 `
 
 const configGenerator = (module, index) => ({
-  input: getInput(),
+  input: resolve('src/index.ts'),
   output: [module, minify(module)],
   plugins: [
     index === 0
@@ -61,15 +63,17 @@ const configGenerator = (module, index) => ({
           targets: ['./dist', './types']
         })
       : null,
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      __DEV__: isDev,
+      preventAssignment: true
+    }),
     json(),
-    module.format !== 'esm' ? nodeResolve() : null,
-    commonjs(),
     alias({
       entries: [{ find: '@', replacement: resolve('src') }]
     }),
-    replace({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    }),
+    module.format === 'umd' ? nodeResolve() : null,
+    commonjs(),
     typescript({
       check: true,
       tsconfig: resolve('tsconfig.json'),
@@ -77,7 +81,8 @@ const configGenerator = (module, index) => ({
     }),
     babel({
       exclude: 'node_modules/**',
-      extensions: ['.ts', '.tsx']
+      babelHelpers: 'bundled',
+      extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx']
     })
   ].filter(Boolean)
 })
@@ -90,15 +95,6 @@ export default out.map((o, i) => configGenerator(o, i))
  */
 function resolve(dir) {
   return path.join(__dirname, dir)
-}
-
-/**
- * 自动识别项目入口文件
- */
-function getInput() {
-  const index = resolve('src/index.ts')
-  const indexJSX = resolve('src/index.tsx')
-  return fs.existsSync(index) ? index : indexJSX
 }
 
 /**
