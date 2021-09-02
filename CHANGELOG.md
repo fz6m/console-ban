@@ -1,3 +1,21 @@
+# 3.1.0 (2021-09-02)
+
+
+### Bug Fixes
+
+* terser plugin cleans the console 🍓 ([e2ff893](https://github.com/fz6m/console-ban/commit/e2ff89359e6a1707ba09421f3c11498828247ff7))
+
+
+### Features
+
+* add safari support 🍓 ([abd719a](https://github.com/fz6m/console-ban/commit/abd719afd615a293454ae80059a8e4775879cb38))
+* first commit version 1.0🌸 ([e890e29](https://github.com/fz6m/console-ban/commit/e890e29da5559c47425e543fa9df3610914e9c72))
+* schema upgrade 🚀 ([5400785](https://github.com/fz6m/console-ban/commit/540078546d2f988e626b4ce689db547fcaf13e7d))
+* support chrome 93 🌈 ([bbd49d8](https://github.com/fz6m/console-ban/commit/bbd49d86174ebff8bd658ca47b66d0c7dea44746))
+* **firefox:** add firefox support ([a3b3626](https://github.com/fz6m/console-ban/commit/a3b362689d65a68842610296eca79ada433f2e0d))
+
+
+
 # 2.2.0 (2021-04-05)
 
 ### Features
