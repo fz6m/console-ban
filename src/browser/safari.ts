@@ -1,8 +1,11 @@
-export const getSafariTest = (fire: () => void) => {
+import { EBrowser } from '@/constants'
+import { IFireRunner } from '@/interface'
+
+export const getSafariTest = (fire: IFireRunner) => {
   const img = new Image()
   Object.defineProperty(img, 'id', {
     get: () => {
-      fire()
+      fire(EBrowser.Safari)
     }
   })
   console.log(img)

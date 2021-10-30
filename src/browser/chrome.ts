@@ -1,6 +1,8 @@
+import { IFireRunner } from '@/interface'
+
 let counts = 0
 
-export const getChromeRerenderTestFunc = (fire: () => void) => {
+export const getChromeRerenderTestFunc = (fire: IFireRunner) => {
   let mark = 0
   const currentCount = ++counts
   return () => {
@@ -17,7 +19,7 @@ export const getChromeRerenderTestFunc = (fire: () => void) => {
   }
 }
 
-export const getChromeTest = (fire: () => void) => {
+export const getChromeTest = (fire: IFireRunner) => {
   const re = /./
   re.toString = getChromeRerenderTestFunc(fire) as any
 

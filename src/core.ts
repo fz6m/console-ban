@@ -1,5 +1,11 @@
 import { defaultOptions } from './default'
-import { completion, isUserAgentContains, isString } from './utils'
+import {
+  completion,
+  isUserAgentContains,
+  isString,
+  locationChange
+} from './utils'
+import { BrowserType } from './constants'
 
 import { getChromeTest } from './browser/chrome'
 import { getFirefoxTest } from './browser/firefox'
@@ -59,14 +65,14 @@ export class ConsoleBan {
     }
   }
 
-  redirect() {
+  redirect(env?: BrowserType) {
     const target = this._redirect
     if (!target) {
       return
     }
     // 绝对地址
     if (target.indexOf('http') === 0) {
-      location.href !== target && (location.href = target)
+      location.href !== target && locationChange(target, env)
       return
     }
     // 相对地址
@@ -74,7 +80,7 @@ export class ConsoleBan {
     if (completion(target) === path) {
       return
     }
-    location.href = target
+    locationChange(target, env)
   }
 
   callback() {
@@ -112,14 +118,14 @@ export class ConsoleBan {
     }
   }
 
-  fire() {
+  fire(env?: BrowserType) {
     // 优先执行回调
     if (this._callback) {
       this._callback.call(null)
       return
     }
     // 其次检查跳转
-    this.redirect()
+    this.redirect(env)
     if (this._redirect) {
       return
     }
