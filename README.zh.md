@@ -11,7 +11,7 @@ Language: [English](./README.md)|中文|[日本語](./README.jp.md)
 ```html
 <head>
   <!-- ... -->
-  <script src="https://cdn.jsdelivr.net/gh/fz6m/console-ban@3.2/dist/console-ban.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/fz6m/console-ban@4.0/dist/console-ban.min.js"></script>
   <script>
     // default options
     ConsoleBan.init()
