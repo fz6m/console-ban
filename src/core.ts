@@ -25,7 +25,7 @@ export interface IConsoleBanOptions {
   /** 是否重写 document 内容 */
   write?: string | Element
 }
-// 向前兼容
+
 export type options = IConsoleBanOptions
 
 export class ConsoleBan {
@@ -70,12 +70,12 @@ export class ConsoleBan {
     if (!target) {
       return
     }
-    // 绝对地址
+    // absolute path
     if (target.indexOf('http') === 0) {
       location.href !== target && locationChange(target, env)
       return
     }
-    // 相对地址
+    // relative path
     const path = location.pathname + location.search
     if (completion(target) === path) {
       return
@@ -107,7 +107,7 @@ export class ConsoleBan {
       return
     }
 
-    // 其他一律当做 safari 逻辑处理
+    // other like safari
     getSafariTest(fireCallback)
   }
 
@@ -119,17 +119,17 @@ export class ConsoleBan {
   }
 
   fire(env?: BrowserType) {
-    // 优先执行回调
+    // first callback
     if (this._callback) {
       this._callback.call(null)
       return
     }
-    // 其次检查跳转
+    // check redirect
     this.redirect(env)
     if (this._redirect) {
       return
     }
-    // 最后是重写逻辑
+    // finally write html
     this.write()
   }
 
