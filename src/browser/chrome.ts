@@ -1,18 +1,18 @@
 import { IFireRunner } from '@/interface'
 
 let counts = 0
+let triggered = 0
 
 export const getChromeRerenderTestFunc = (fire: IFireRunner) => {
   let mark = 0
-  const currentCount = ++counts
+  const seq = 1 << counts++
   return () => {
-    if (counts && counts !== currentCount) {
+    if (triggered && !(triggered & seq)) {
       return
     }
     mark++
     if (mark === 2) {
-      // first trigger
-      counts = currentCount
+      triggered |= seq
       fire()
       mark = 1
     }
@@ -29,5 +29,5 @@ export const getChromeTest = (fire: IFireRunner) => {
   const date = new Date()
   date.toString = getChromeRerenderTestFunc(fire) as any
 
-  console.log('%c', /* < 92 */ func, /* 92 */ func(), /* 93 */ date)
+  console.log('%c', /* < 92 */ func, /* 92 */ func(), /* >= 93 */ date)
 }
