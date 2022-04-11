@@ -4,23 +4,14 @@ import babel from '@rollup/plugin-babel'
 import alias from '@rollup/plugin-alias'
 import replace from '@rollup/plugin-replace'
 import json from '@rollup/plugin-json'
-
-// https://github.com/TrySound/rollup-plugin-terser
 import { terser } from 'rollup-plugin-terser'
-
-// https://github.com/saf33r/rollup-plugin-cleaner
 import cleaner from 'rollup-plugin-cleaner'
-
-// https://github.com/ezolenko/rollup-plugin-typescript2
 import typescript from 'rollup-plugin-typescript2'
-
 import pkg from './package.json'
 
-// support .js .jsx
 import { DEFAULT_EXTENSIONS } from '@babel/core'
 
 const path = require('path')
-const fs = require('fs')
 const _ = require('lodash')
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -89,28 +80,17 @@ const configGenerator = (module, index) => ({
 
 export default out.map((o, i) => configGenerator(o, i))
 
-/**
- * 获取文件绝对路径
- * @param {String} dir 文件相对路径
- */
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-/**
- * 最小化版本
- * @param {Object} m out 数组内的单个 output 对象
- */
 function minify(m) {
-  // 获取绝对路径
   m.file = resolve(m.file)
 
-  // 最小化
   const minObj = _.cloneDeep(m)
   minObj.file = minObj.file.slice(0, minObj.file.lastIndexOf('.js')) + '.min.js'
   minObj.plugins = [
     terser({
-      // 去除多余的 banner
       format: {
         comments: RegExp(`${pkg.name}`)
       }

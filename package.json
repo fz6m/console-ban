@@ -20,7 +20,8 @@
     "console",
     "f12-ban",
     "console-ban",
-    "find-console"
+    "find-console",
+    "detect-console"
   ],
   "files": [
     "dist",
@@ -30,51 +31,34 @@
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production rollup -c",
     "build:dev": "cross-env NODE_ENV=development rollup -c",
-    "lint": "eslint --ext .ts,.tsx \"src\"",
-    "prettier": "prettier -c --write --parser=typescript \"src/**/*.{ts,tsx}\"",
-    "fix": "eslint --fix --ext .ts,.tsx \"src\"",
-    "release": "standard-version --release-as minor",
-    "release-as": "standard-version",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "changelog-all": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "pre-publish": "yarn release && yarn changelog-all && yarn build",
-    "push": "yarn publish --registry=https://registry.yarnpkg.com"
+    "push": "npm publish --registry=https://registry.npmjs.com",
+    "prepublishOnly": "pnpm build",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "@rollup/plugin-alias": "^3.1.5",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^20.0.0",
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@fz6m/eslint-plugin-sakina": "^1.2.0",
+    "@rollup/plugin-alias": "^3.1.9",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^21.0.3",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.4",
-    "@rollup/plugin-replace": "^3.0.0",
-    "@types/node": "^14.14.20",
-    "@types/react": "^17.0.18",
-    "@typescript-eslint/parser": "^4.12.0",
-    "conventional-changelog-cli": "^2.1.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@types/node": "^17.0.23",
+    "commit-verify": "^1.0.3",
     "cross-env": "^7.0.3",
-    "eslint": "^7.17.0",
-    "eslint-config-prettier": "^7.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "husky": "^4.3.7",
-    "lint-staged": "^10.5.3",
+    "eslint": "^8.13.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
     "lodash": "^4.17.21",
-    "prettier": "^2.3.2",
-    "react": "^17.0.2",
-    "rollup": "^2.56.2",
+    "prettier": "^2.6.2",
+    "rollup": "^2.70.1",
     "rollup-plugin-cleaner": "^1.0.0",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "standard-version": "^9.1.0",
-    "typescript": "^4.3.5"
-  },
-  "standard-version": {
-    "skip": {
-      "changelog": true
-    }
+    "rollup-plugin-typescript2": "^0.31.2",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.3"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -82,7 +66,7 @@
     ]
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=14"
   },
   "license": "MIT",
   "browserslist": [
