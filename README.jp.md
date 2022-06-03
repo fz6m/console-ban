@@ -11,7 +11,7 @@ HTML に直接に挿入：
 ```html
 <head>
   <!-- ... -->
-  <script src="https://cdn.jsdelivr.net/gh/fz6m/console-ban@4.0/dist/console-ban.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/console-ban@4.1.0/dist/console-ban.min.js"></script>
   <script>
     // デフォルトオプション
     ConsoleBan.init()
