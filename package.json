@@ -36,8 +36,8 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.10",
-    "@babel/preset-env": "^7.17.10",
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "@fz6m/eslint-plugin-sakina": "^2.0.2",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-babel": "^5.3.1",
@@ -45,31 +45,25 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^4.0.0",
-    "@types/node": "^17.0.31",
+    "@types/node": "^17.0.39",
     "commit-verify": "^1.0.3",
     "cross-env": "^7.0.3",
-    "eslint": "^8.15.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.4.1",
+    "eslint": "^8.16.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.0",
     "lodash": "^4.17.21",
     "prettier": "^2.6.2",
-    "rollup": "^2.72.0",
+    "rollup": "^2.75.5",
     "rollup-plugin-cleaner": "^1.0.0",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.31.2",
+    "rollup-plugin-typescript2": "^0.32.0",
     "tslib": "^2.4.0",
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.2"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier -c --write --parser=typescript \"src/**/*.{ts,tsx}\""
     ]
-  },
-  "engines": {
-    "node": ">= 16.14.1",
-    "pnpm": "^7.0.1",
-    "yarn": "forbidden, use pnpm",
-    "npm": "forbidden, use pnpm"
   },
   "license": "MIT",
   "browserslist": [
