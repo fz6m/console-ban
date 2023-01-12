@@ -12,17 +12,17 @@ import { getFirefoxTest } from './browser/firefox'
 import { getSafariTest } from './browser/safari'
 
 export interface IConsoleBanOptions {
-  /** 是否开启无限 debugger */
+  /** enable loop infinite debugger */
   debug?: boolean
-  /** 无限 debugger 间隔 */
+  /** loop debugger interval */
   debugTime?: number
-  /** 打开 console 后的回调 */
+  /** console opend callback */
   callback?: () => any
-  /** 重定向地址 */
+  /** redirect url */
   redirect?: string
-  /** 是否禁用 console.clear */
+  /** disable console.clear */
   clear?: boolean
-  /** 是否重写 document 内容 */
+  /** rewrite document content */
   write?: string | Element
 }
 

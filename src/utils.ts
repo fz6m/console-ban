@@ -1,7 +1,7 @@
 import { BrowserType, EBrowser } from './constants'
 
 /**
- * 处理 URL 补全
+ * url completion
  * @example '' -> /
  * @example path -> /path
  * @example /path -> /path
@@ -15,20 +15,14 @@ export const completion = (url: string) => {
 }
 
 /**
- * 判断浏览器
+ * detect browser
  */
 export const isUserAgentContains = (text: string) => {
   return ~navigator.userAgent.toLowerCase().indexOf(text)
 }
 
-/**
- * 判断字符串
- */
 export const isString = (v: any): v is string => typeof v === 'string'
 
-/**
- * 跳转策略：改变 location
- */
 export const locationChange = (target: string, env?: BrowserType) => {
   // Safari 15 has bfcache. prevent click history back button
   if (env === EBrowser.Safari) {
