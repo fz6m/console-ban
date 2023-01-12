@@ -1,6 +1,6 @@
 {
   "name": "console-ban",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "author": "fz6m",
   "description": "Detect F12 open browser console. protect web site static resources, support redirect, rewrite, custom callback strategies",
   "main": "dist/console-ban.cjs.js",
