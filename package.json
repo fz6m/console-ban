@@ -48,7 +48,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
-    "@fz6m/eslint-plugin-sakina": "^2.0.2",
+    "eslint-plugin-sakina": "^3.2.0",
     "@rollup/plugin-alias": "^4.0.2",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^24.0.0",
