@@ -90,6 +90,7 @@ ConsoleBan.init({
 | `redirect`  |    no    |      string       |   `-`   | 开启控制台后重定向地址                                      |
 |   `write`   |    no    | string \| Element |   `-`   | 开启控制台后重写 `document.body` 内容，支持传入节点或字符串 |
 | `callback`  |    no    |     Function      |   `-`   | 开启控制台后的回调函数                                      |
+|  `bfcache`  |    no    |      boolean      | `true`  | 禁用 `bfcache` 功能                                         |
 
 注：`redirect`、`write`、`callback` 三种策略只能取其一，优先使用回调函数。
 

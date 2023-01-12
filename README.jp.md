@@ -82,14 +82,15 @@ ConsoleBan.init({
 
 ### オプション
 
-|    name     | required |       type        | default | description                                                 |
-| :---------: | :------: | :---------------: | :-----: | :---------------------------------------------------------- |
-|   `clear`   |    no    |      boolean      | `true`  | `console.clear` を禁止                                   |
-|   `debug`   |    no    |      boolean      | `true`  | `debugger` を無限に実行するかどうか                          |
-| `debugTime` |    no    |      number       | `3000`  | 定時に `debugger` を循環の間隔                            |
-| `redirect`  |    no    |      string       |   `-`   | コンソールを開けてリダイレクトの目的地                                    |
+|    name     | required |       type        | default | description                                         |
+| :---------: | :------: | :---------------: | :-----: | :-------------------------------------------------- |
+|   `clear`   |    no    |      boolean      | `true`  | `console.clear` を禁止                              |
+|   `debug`   |    no    |      boolean      | `true`  | `debugger` を無限に実行するかどうか                 |
+| `debugTime` |    no    |      number       | `3000`  | 定時に `debugger` を循環の間隔                      |
+| `redirect`  |    no    |      string       |   `-`   | コンソールを開けてリダイレクトの目的地              |
 |   `write`   |    no    | string \| Element |   `-`   | コンソールを開けて `document.body` をリライトの内容 |
-| `callback`  |    no    |     Function      |   `-`   | コンソールを開けて自分で定義出来るコールバック                                      |
+| `callback`  |    no    |     Function      |   `-`   | コンソールを開けて自分で定義出来るコールバック      |
+|  `bfcache`  |    no    |      boolean      | `true`  | `bfcache` の能力を禁止                              |
 
 注意：`redirect`、`write`、`callback` 三つのストラテジーは唯一つが使うことが出来る，コールバックの優先位が一番高い
 

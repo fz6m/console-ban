@@ -12,33 +12,57 @@ import { getFirefoxTest } from './browser/firefox'
 import { getSafariTest } from './browser/safari'
 
 export interface IConsoleBanOptions {
-  /** enable loop infinite debugger */
+  /**
+   * enable loop infinite debugger
+   * @default true
+   */
   debug?: boolean
-  /** loop debugger interval */
+  /**
+   * loop debugger interval
+   * @default 300
+   */
   debugTime?: number
-  /** console opend callback */
+  /**
+   * console opend callback
+   * @default undefined
+   */
   callback?: () => any
-  /** redirect url */
+  /**
+   * redirect url
+   * @default undefined
+   */
   redirect?: string
-  /** disable console.clear */
+  /**
+   * disable console.clear
+   * @default true -> disable console.clear
+   */
   clear?: boolean
-  /** rewrite document content */
+  /**
+   * rewrite document content
+   * @default undefined
+   */
   write?: string | Element
+  /**
+   * disable bfcache
+   * @default true -> disable bfcache
+   */
+  bfcache?: boolean
 }
 
 export type options = IConsoleBanOptions
 
 export class ConsoleBan {
-  _debug: boolean
-  _debugTime: number
-  _clear: boolean
+  _debug?: boolean
+  _debugTime?: number
+  _clear?: boolean
+  _bfcache?: boolean
 
   _callback?: () => any
   _redirect?: string
   _write?: string | Element
 
   constructor(option: IConsoleBanOptions) {
-    const { clear, debug, debugTime, callback, redirect, write } = {
+    const { clear, debug, debugTime, callback, redirect, write, bfcache } = {
       ...defaultOptions,
       ...option
     }
@@ -46,6 +70,7 @@ export class ConsoleBan {
     this._debug = debug
     this._debugTime = debugTime
     this._clear = clear
+    this._bfcache = bfcache
 
     this._callback = callback
     this._redirect = redirect
@@ -55,6 +80,13 @@ export class ConsoleBan {
   clear() {
     if (this._clear) {
       console.clear = () => {}
+    }
+  }
+
+  bfcache() {
+    if (this._bfcache) {
+      window.addEventListener('unload', () => {})
+      window.addEventListener('beforeunload', () => {})
     }
   }
 
@@ -133,14 +165,19 @@ export class ConsoleBan {
     this.write()
   }
 
-  ban() {
-    // callback
-    this.callback()
-
+  prepare() {
     // clear console.clear
     this.clear()
 
+    // disable bfcache
+    this.bfcache()
+
     // debug init
     this.debug()
+  }
+
+  ban() {
+    this.prepare()
+    this.callback()
   }
 }

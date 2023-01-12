@@ -82,14 +82,15 @@ The callback function supports custom policies after the console is opened.
 
 ### Options
 
-|    name     | required |       type        | default | description                                                 |
-| :---------: | :------: | :---------------: | :-----: | :---------------------------------------------------------- |
-|   `clear`   |    no    |      boolean      | `true`  | Disable `console.clear`                                     |
-|   `debug`   |    no    |      boolean      | `true`  | Whether to enable infinity `debugger`                       |
-| `debugTime` |    no    |      number       | `3000`  | The `debugger` execution interval                            |
-| `redirect`  |    no    |      string       |   `-`   | Redirect url when console is opend                                      |
+|    name     | required |       type        | default | description                                           |
+| :---------: | :------: | :---------------: | :-----: | :---------------------------------------------------- |
+|   `clear`   |    no    |      boolean      | `true`  | Disable `console.clear`                               |
+|   `debug`   |    no    |      boolean      | `true`  | Whether to enable infinity `debugger`                 |
+| `debugTime` |    no    |      number       | `3000`  | The `debugger` execution interval                     |
+| `redirect`  |    no    |      string       |   `-`   | Redirect url when console is opend                    |
 |   `write`   |    no    | string \| Element |   `-`   | Rewrite `document.body` content when console is opend |
-| `callback`  |    no    |     Function      |   `-`   | Custom callback when console is opend                                      |
+| `callback`  |    no    |     Function      |   `-`   | Custom callback when console is opend                 |
+|  `bfcache`  |    no    |      boolean      | `true`  | Disable bfcache                                       |
 
 P.S. `redirect`, `write`, `callback` only one will work, priority use `callback`.
 
