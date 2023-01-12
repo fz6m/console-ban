@@ -7,12 +7,12 @@ import json from '@rollup/plugin-json'
 import { terser } from 'rollup-plugin-terser'
 import cleaner from 'rollup-plugin-cleaner'
 import typescript from 'rollup-plugin-typescript2'
-import pkg from './package.json'
+import pkg from './package.json' assert { type: 'json' }
+import path from 'path'
+import _ from 'lodash'
+import { fileURLToPath } from 'url';
 
 import { DEFAULT_EXTENSIONS } from '@babel/core'
-
-const path = require('path')
-const _ = require('lodash')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -72,6 +72,7 @@ const configGenerator = (module, index) => ({
     }),
     babel({
       exclude: 'node_modules/**',
+      comments: false,
       babelHelpers: 'bundled',
       extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx']
     })
@@ -81,6 +82,7 @@ const configGenerator = (module, index) => ({
 export default out.map((o, i) => configGenerator(o, i))
 
 function resolve(dir) {
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
   return path.join(__dirname, dir)
 }
 
